@@ -1,19 +1,20 @@
 'use client';
 
 import { useState } from 'react';
-import { CarProps } from '@/types';
-import { calculateCarRent } from '@/utils';
 import Image from 'next/image';
-import CustomButton from './CustomButton';
 import CarDetails from './CarDetails';
+import CustomButton from './CustomButton';
+
+import { CarProps } from '@/types';
+import { calculateCarRent, generateCarImage } from '@/utils';
 
 interface CarCardProps {
   car: CarProps;
 }
 
 const CarCard = ({ car }: CarCardProps) => {
-  const [isOpen, setIsOpen] = useState(false);
   const { city_mpg, year, make, model, transmission, drive } = car;
+  const [isOpen, setIsOpen] = useState(false);
   const carRent = calculateCarRent(city_mpg, year);
 
   return (
@@ -29,7 +30,13 @@ const CarCard = ({ car }: CarCardProps) => {
         <span className="self-end text-[14px] font-medium">/day</span>
       </p>
       <div className="relative w-full h-40 my-3 object-contain">
-        <Image src="/hero.png" alt="car model" fill priority className="object-contain" />
+        <Image
+          src={generateCarImage(car)}
+          alt="car model"
+          fill
+          priority
+          className="object-contain"
+        />
       </div>
       <div className="relative flex w-full mt-2">
         <div className="flex group-hover:invisible justify-between text-grey w-full">
